@@ -6,19 +6,22 @@ import java.time.LocalDateTime;
 public class Excursion
 {
     Long excursionId;
-    String ciudad;
-    LocalDateTime fechaAlta;
+    String ciudad, descrip;
+    LocalDateTime fechaAlta, fechaComienzo;
     BigDecimal precioXPersona;
     int maxPlazas;
     int plazasLibres;
 
-    public Excursion(Long excursionId, String ciudad,
-                     LocalDateTime fechaAlta, BigDecimal precioXPersona,
+    public Excursion(String ciudad, String descrip,
+                     LocalDateTime fechaComienzo,
+                     BigDecimal precioXPersona,
                      int maxPlazas, int plazasLibres)
     {
-        this.excursionId = excursionId;
+        this.excursionId = null;
         this.ciudad = ciudad;
-        this.fechaAlta = fechaAlta;
+        this.descrip = descrip;
+        this.fechaAlta = null;
+        this.fechaComienzo = fechaComienzo.withNano(0);
         this.precioXPersona = precioXPersona;
         this.maxPlazas = maxPlazas;
         this.plazasLibres = plazasLibres;
@@ -44,6 +47,16 @@ public class Excursion
         this.ciudad = ciudad;
     }
 
+    public String getdescrip()
+    {
+        return descrip;
+    }
+
+    public void setdescrip(String descrip)
+    {
+        this.descrip = descrip;
+    }
+
     public LocalDateTime getFechaAlta()
     {
         return fechaAlta;
@@ -51,7 +64,17 @@ public class Excursion
 
     public void setFechaAlta(LocalDateTime fechaAlta)
     {
-        this.fechaAlta = fechaAlta;
+        this.fechaAlta = fechaAlta.withNano(0);
+    }
+
+    public LocalDateTime getFechaComienzo()
+    {
+        return fechaComienzo;
+    }
+
+    public void setFechaComienzo(LocalDateTime fechaComienzo)
+    {
+        this.fechaComienzo = fechaComienzo.withNano(0);
     }
 
     public BigDecimal getPrecioXPersona()
@@ -96,7 +119,9 @@ public class Excursion
         if(plazasLibres != excursion.plazasLibres) return false;
         if(!excursionId.equals(excursion.excursionId)) return false;
         if(!ciudad.equals(excursion.ciudad)) return false;
+        if(!descrip.equals(excursion.descrip)) return false;
         if(!fechaAlta.equals(excursion.fechaAlta)) return false;
+        if(!fechaComienzo.equals(excursion.fechaComienzo)) return false;
         return precioXPersona.equals(excursion.precioXPersona);
     }
 
@@ -105,7 +130,9 @@ public class Excursion
     {
         int result = excursionId.hashCode();
         result = 31*result + ciudad.hashCode();
+        result = 31*result + descrip.hashCode();
         result = 31*result + fechaAlta.hashCode();
+        result = 31*result + fechaComienzo.hashCode();
         result = 31*result + precioXPersona.hashCode();
         result = 31*result + maxPlazas;
         result = 31*result + plazasLibres;
