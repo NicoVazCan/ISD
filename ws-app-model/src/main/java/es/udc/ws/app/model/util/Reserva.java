@@ -1,18 +1,24 @@
 package es.udc.ws.app.model.util;
 
+import java.time.LocalDateTime;
+
 public class Reserva
 {
     Long reservaId;
     String email;
     int numPlazas;
     String tarjeta;
+    LocalDateTime fecha;
+    Long excursionId;
 
-    public Reserva(Long reservaId, String email, int numPlazas, String tarjeta)
+    public Reserva(String email, int numPlazas, String tarjeta, Long excursionId)
     {
-        this.reservaId = reservaId;
+        this.reservaId = null;
         this.email = email;
         this.numPlazas = numPlazas;
         this.tarjeta = tarjeta;
+        this.fecha = null;
+        this.excursionId = excursionId;
     }
 
     public Long getReservaId()
@@ -55,6 +61,26 @@ public class Reserva
         this.tarjeta = tarjeta;
     }
 
+    public LocalDateTime getFecha()
+    {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha)
+    {
+        this.fecha = fecha.withNano(0);
+    }
+
+    public Long getExcursionId()
+    {
+        return excursionId;
+    }
+
+    public void setExcursionId(Long excursionId)
+    {
+        this.excursionId = excursionId;
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -66,7 +92,9 @@ public class Reserva
         if(numPlazas != reserva.numPlazas) return false;
         if(!reservaId.equals(reserva.reservaId)) return false;
         if(!email.equals(reserva.email)) return false;
-        return tarjeta.equals(reserva.tarjeta);
+        if(!tarjeta.equals(reserva.tarjeta)) return false;
+        if(!fecha.equals(reserva.fecha)) return false;
+        return excursionId.equals(reserva.excursionId);
     }
 
     @Override
@@ -76,6 +104,8 @@ public class Reserva
         result = 31*result + email.hashCode();
         result = 31*result + numPlazas;
         result = 31*result + tarjeta.hashCode();
+        result = 31*result + fecha.hashCode();
+        result = 31*result + reservaId.hashCode();
         return result;
     }
 }
