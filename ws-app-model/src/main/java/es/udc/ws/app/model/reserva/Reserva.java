@@ -1,4 +1,4 @@
-package es.udc.ws.app.model.util;
+package es.udc.ws.app.model.reserva;
 
 import java.time.LocalDateTime;
 
@@ -56,9 +56,10 @@ public class Reserva
         return tarjeta;
     }
 
-    public void setTarjeta(String tarjeta)
+    public Reserva setTarjeta(String tarjeta)
     {
         this.tarjeta = tarjeta;
+        return null;
     }
 
     public LocalDateTime getFecha()
@@ -68,7 +69,7 @@ public class Reserva
 
     public void setFecha(LocalDateTime fecha)
     {
-        this.fecha = fecha.withNano(0);
+        this.fecha = fecha == null? null : fecha.withNano(0);
     }
 
     public Long getExcursionId()
