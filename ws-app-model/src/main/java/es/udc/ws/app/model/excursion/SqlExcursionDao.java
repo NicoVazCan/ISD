@@ -1,4 +1,4 @@
-package es.udc.ws.app.model.util;
+package es.udc.ws.app.model.excursion;
 
 import es.udc.ws.util.exceptions.*;
 
@@ -11,6 +11,6 @@ public interface SqlExcursionDao
             throws InstanceNotFoundException;
     void update(Connection connection, Excursion excursion)
             throws InstanceNotFoundException;
-    void remove(Connection connection, Long excursion)
+    void remove(Connection connection, Long excursionId)
             throws InstanceNotFoundException;
 }
