@@ -1,4 +1,4 @@
-package es.udc.ws.app.model.util;
+package es.udc.ws.app.model.excursion;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ public class Excursion
     public Excursion(String ciudad, String descrip,
                      LocalDateTime fechaComienzo,
                      BigDecimal precioXPersona,
-                     int maxPlazas, int plazasLibres)
+                     int maxPlazas)
     {
         this.excursionId = null;
         this.ciudad = ciudad;
@@ -24,7 +24,7 @@ public class Excursion
         this.fechaComienzo = fechaComienzo.withNano(0);
         this.precioXPersona = precioXPersona;
         this.maxPlazas = maxPlazas;
-        this.plazasLibres = plazasLibres;
+        this.plazasLibres = maxPlazas;
     }
 
     public Long getExcursionId()
@@ -47,12 +47,12 @@ public class Excursion
         this.ciudad = ciudad;
     }
 
-    public String getdescrip()
+    public String getDescrip()
     {
         return descrip;
     }
 
-    public void setdescrip(String descrip)
+    public void setDescrip(String descrip)
     {
         this.descrip = descrip;
     }
@@ -64,7 +64,7 @@ public class Excursion
 
     public void setFechaAlta(LocalDateTime fechaAlta)
     {
-        this.fechaAlta = fechaAlta.withNano(0);
+        this.fechaAlta = fechaAlta == null? null : fechaAlta.withNano(0);
     }
 
     public LocalDateTime getFechaComienzo()
@@ -74,7 +74,7 @@ public class Excursion
 
     public void setFechaComienzo(LocalDateTime fechaComienzo)
     {
-        this.fechaComienzo = fechaComienzo.withNano(0);
+        this.fechaComienzo = fechaComienzo == null? null : fechaComienzo.withNano(0);
     }
 
     public BigDecimal getPrecioXPersona()
