@@ -1,26 +1,29 @@
 -- ----------------------------------------------------------------------------
 -- Model
 -------------------------------------------------------------------------------
-drop table excursiones cascade constraint purge;
-drop table reservas    cascade constraint purge;
+drop table reservas;
+drop table excursiones;
 
 create table excursiones
-(	excursion_id bigint      constraint cp_excursion_id primary key,
-    ciudad 	varchar          constraint cn_ciudad not null,
- 	descrip varchar          constraint cn_descrip not null,
- 	fecha_alta date          constraint cm_fecha_alta not null,
-    fecha_comienza date      constraint cn_fecha_comienza not null,
-    precio_x_persona numeric constraint cn_precio_x_persona not null,
-    max_plazas integer       constraint cn_max_plazas not null,
-    plazas_libres integer    constraint cn_plazas_libres not null
-);
+(	excursion_id bigint      not null auto_increment,
+    ciudad varchar(32)       collate latin1_bin not null,
+ 	descrip varchar(1024)    collate latin1_bin not null,
+ 	fecha_alta datetime      not null,
+    fecha_comienzo datetime  not null,
+    precio_x_persona numeric not null,
+    max_plazas integer       not null,
+    plazas_libres integer    not null,
+    constraint cp_excursion_id primary key(excursion_id)
+) engine = InnoDB;
 
 create table reservas
-(	reserva_id bigint  constraint cp_reserva_id primary key,
-    email varchar      constraint cn_email not null,
-    num_plazas integer constraint cn_num_plazas not null,
-    tarjeta varchar    constraint cn_tarjeta not null,
-    fecha date         constraint cn_fecha not null,
-    excursion_id bigint constraint cfn_plazas_libres
-        references excursiones(excursion_id) not null
-);
+(	reserva_id bigint   not null auto_increment,
+    email varchar(64)   collate latin1_bin not null,
+    num_plazas integer  not null,
+    tarjeta varchar(16) collate latin1_bin not null,
+    fecha datetime      not null,
+    excursion_id bigint not null,
+    constraint cp_reserva_id primary key(reserva_id),
+    constraint cfn_plazas_libres foreign key(excursion_id)
+        references excursiones(excursion_id) on delete cascade
+) engine = InnoDB;
