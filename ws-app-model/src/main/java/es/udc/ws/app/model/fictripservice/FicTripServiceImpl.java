@@ -34,7 +34,7 @@ public class FicTripServiceImpl implements FicTripService
         reservaDao = SqlReservaDaoFactory.getDao();
     }
 
-    private void validateExcursion(Excursion excursion, LocalDateTime fechaAlta)
+    private void validateExcursion(Excursion excursion)
             throws InputValidationException, FechaComienzoMuyCercaException
     {
         PropertyValidator.validateMandatoryString("ciudad", excursion.getCiudad());
@@ -44,10 +44,10 @@ public class FicTripServiceImpl implements FicTripService
             throw new InputValidationException("Excursion con id=\"" +
                     excursion.getExcursionId() + "\" tiene que tener una fecha de comienzo no nula.");
         }
-        if(excursion.getFechaComienzo().isBefore(fechaAlta.plusHours(EXCURSION_MARGEN)))
+        if(excursion.getFechaComienzo().isBefore(excursion.getFechaAlta().plusHours(EXCURSION_MARGEN)))
         {
             throw new FechaComienzoMuyCercaException(excursion.getExcursionId(),
-                    fechaAlta, excursion.getFechaComienzo(), EXCURSION_MARGEN);
+                    excursion.getFechaAlta(), excursion.getFechaComienzo(), EXCURSION_MARGEN);
         }
         if(excursion.getPrecioXPersona() == null || excursion.getPrecioXPersona().signum() == -1)
         {
@@ -79,9 +79,10 @@ public class FicTripServiceImpl implements FicTripService
     public Excursion addExcursion(Excursion excursion) throws InputValidationException,
             FechaComienzoMuyCercaException
     {
-        LocalDateTime fechaAlta = LocalDateTime.now().withNano(0);
-        validateExcursion(excursion, fechaAlta);
-        excursion.setFechaAlta(fechaAlta);
+        excursion.setFechaAlta(LocalDateTime.now().withNano(0));
+        excursion.setPlazasLibres(excursion.getMaxPlazas());
+        validateExcursion(excursion);
+
 
         try(Connection connection = dataSource.getConnection())
         {
@@ -157,7 +158,9 @@ public class FicTripServiceImpl implements FicTripService
                 return reserva;
 
             }
-            catch(InstanceNotFoundException | FechaComienzoMuyCercaException e)
+            catch(InstanceNotFoundException |
+                    FechaComienzoMuyCercaException |
+                    NoHayTantasPlazasException e)
             {
                 connection.commit();
                 throw e;
