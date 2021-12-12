@@ -4,33 +4,20 @@ import java.time.LocalDateTime;
 
 public class FechaComienzoMuyCercaException extends Exception
 {
-    private Long excursionId;
     LocalDateTime fechaAct;
     LocalDateTime fechaComienzo;
     int margen;
 
-    public FechaComienzoMuyCercaException(Long excursionId,
-                                          LocalDateTime fechaAct,
+    public FechaComienzoMuyCercaException(LocalDateTime fechaAct,
                                           LocalDateTime fechaComienzo,
                                           int margen)
     {
-        super("Excursion con id=\"" + excursionId +
-                "\" de " + fechaAct + " a " + fechaComienzo +
+        super("Entre la fecha actual y la fecha de comienzo de la excursion, " +
+                fechaAct + " a " + fechaComienzo +
                 ", hay menos de " + margen + " horas.");
-        this.excursionId = excursionId;
         this.fechaAct = fechaAct;
         this.fechaComienzo = fechaComienzo;
         this.margen = margen;
-    }
-
-    public Long getExcursionId()
-    {
-        return excursionId;
-    }
-
-    public void setExcursionId(Long excursionId)
-    {
-        this.excursionId = excursionId;
     }
 
     public LocalDateTime getFechaAct()

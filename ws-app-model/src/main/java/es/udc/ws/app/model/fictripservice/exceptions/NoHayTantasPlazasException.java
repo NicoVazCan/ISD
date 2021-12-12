@@ -11,7 +11,7 @@ public class NoHayTantasPlazasException extends Exception
                                       int solicitadas)
     {
         super("Excursion con id=\"" + excursionId +
-                "\" tiene " + disponibles + "plazas disponibles y se han solicitado " +
+                "\" tiene " + disponibles + " plazas disponibles y se han solicitado " +
                 solicitadas + ".");
 
         this.excursionId = excursionId;
