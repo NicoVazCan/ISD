@@ -24,8 +24,8 @@ import static es.udc.ws.app.model.util.ModelConstants.*;
 public class FicTripServiceImpl implements FicTripService
 {
     private final DataSource dataSource;
-    private SqlExcursionDao excursionDao = null;
-    private SqlReservaDao reservaDao = null;
+    private final SqlExcursionDao excursionDao;
+    private final SqlReservaDao reservaDao;
 
     public FicTripServiceImpl()
     {
@@ -41,25 +41,23 @@ public class FicTripServiceImpl implements FicTripService
         PropertyValidator.validateMandatoryString("descrip", excursion.getDescrip());
         if(excursion.getFechaComienzo() == null)
         {
-            throw new InputValidationException("Excursion con id=\"" +
-                    excursion.getExcursionId() + "\" tiene que tener una fecha de comienzo no nula.");
+            throw new InputValidationException("La excursion tiene que tener " +
+                    "una fecha de comienzo no nula.");
         }
         if(excursion.getFechaComienzo().isBefore(excursion.getFechaAlta().plusHours(EXCURSION_MARGEN)))
         {
-            throw new FechaComienzoMuyCercaException(excursion.getExcursionId(),
-                    excursion.getFechaAlta(), excursion.getFechaComienzo(), EXCURSION_MARGEN);
+            throw new FechaComienzoMuyCercaException(excursion.getFechaAlta(),
+                    excursion.getFechaComienzo(), EXCURSION_MARGEN);
         }
         if(excursion.getPrecioXPersona() == null || excursion.getPrecioXPersona().signum() == -1)
         {
-            throw new InputValidationException("Excursion con id=\"" +
-                    excursion.getExcursionId() +
-                    "\" tiene que tener una fecha de comienzo no nula y positivo.");
+            throw new InputValidationException("La excursion tiene que tener " +
+                    "un precio por persona no nulo y positiva.");
         }
         if(excursion.getMaxPlazas() <= 0)
         {
-            throw new InputValidationException("Excursion con id=\"" +
-                    excursion.getExcursionId() +
-                    "\" tiene que tener plazas disponibles inicialmente.");
+            throw new InputValidationException("La excursion tiene que tener " +
+                    "plazas disponibles inicialmente.");
         }
     }
 
@@ -68,9 +66,8 @@ public class FicTripServiceImpl implements FicTripService
         PropertyValidator.validateMandatoryString("email", reserva.getEmail());
         if(reserva.getNumPlazas() < 1 || reserva.getNumPlazas() > 5)
         {
-            throw new InputValidationException("Excursion con id=\"" +
-                    reserva.getReservaId() +
-                    "\" tiene que tener plazas disponibles inicialmente.");
+            throw new InputValidationException("La reserva solicita un número " +
+                    "de plazas inferior a 0 o superior a 5 .");
         }
         PropertyValidator.validateCreditCard(reserva.getTarjeta());
     }
@@ -139,8 +136,8 @@ public class FicTripServiceImpl implements FicTripService
                 Excursion excursion = excursionDao.find(connection, reserva.getExcursionId());
                 if(excursion.getFechaComienzo().isBefore(fecha.plusHours(RESERVA_MARGEN)))
                 {
-                    throw new FechaComienzoMuyCercaException(reserva.getExcursionId(),
-                        fecha, excursion.getFechaComienzo(), EXCURSION_MARGEN);
+                    throw new FechaComienzoMuyCercaException(fecha,
+                            excursion.getFechaComienzo(), EXCURSION_MARGEN);
                 }
                 if(excursion.getPlazasLibres() < reserva.getNumPlazas())
                 {
