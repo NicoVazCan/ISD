@@ -3,6 +3,8 @@ package es.udc.ws.app.client.service.rest;
 import es.udc.ws.app.client.service.ClientAppService;
 import es.udc.ws.app.client.service.dto.ClientExcursionDto;
 import es.udc.ws.app.client.service.dto.ClientReservaDto;
+import es.udc.ws.app.client.service.exception.ClientFechaComienzoMuyCercaException;
+import es.udc.ws.app.client.service.exception.ClientNoHayTantasPlazasException;
 import es.udc.ws.app.client.service.rest.json.JsonToClientExceptionConversor;
 import es.udc.ws.app.client.service.rest.json.JsonToClientExcursionDtoConversor;
 import es.udc.ws.app.client.service.rest.json.JsonToClientReservaDtoConversor;
@@ -18,11 +20,12 @@ import java.io.IOException;
 
 public class RestClientAppService implements ClientAppService
 {
-    private final static String ENDPOINT_ADDRESS_PARAMETER = "RestClientExcursionService.endpointAddress";
+    private final static String ENDPOINT_ADDRESS_PARAMETER = "RestClientAppService.endpointAddress";
     private String endpointAddress;
 
     @Override
-    public Long addExcursion(ClientExcursionDto excursion) throws InputValidationException
+    public Long addExcursion(ClientExcursionDto excursion) throws InputValidationException,
+            ClientFechaComienzoMuyCercaException
     {
         try
         {
@@ -34,7 +37,7 @@ public class RestClientAppService implements ClientAppService
 
             return JsonToClientExcursionDtoConversor.toClientExcursionDto(response.getEntity().getContent()).getExcursionId();
         }
-        catch(InputValidationException e)
+        catch(InputValidationException | ClientFechaComienzoMuyCercaException e)
         {
             throw e;
         }
@@ -46,7 +49,8 @@ public class RestClientAppService implements ClientAppService
 
     @Override
     public Long addReserva(ClientReservaDto reserva)
-            throws InstanceNotFoundException, InputValidationException
+            throws InstanceNotFoundException, InputValidationException,
+            ClientFechaComienzoMuyCercaException, ClientNoHayTantasPlazasException
     {
         try
         {
@@ -59,7 +63,9 @@ public class RestClientAppService implements ClientAppService
             return JsonToClientReservaDtoConversor.toClientReservaDto(
                     response.getEntity().getContent()).getReservaId();
         }
-        catch(InputValidationException | InstanceNotFoundException e)
+        catch(InputValidationException | InstanceNotFoundException |
+                ClientFechaComienzoMuyCercaException |
+                ClientNoHayTantasPlazasException e)
         {
             throw e;
         }
