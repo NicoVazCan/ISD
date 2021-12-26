@@ -10,7 +10,7 @@
     <display-name>WS App Service</display-name>
 
     <!-- REST service -->
-
+    <!--
     <servlet>
         <display-name>ExcursionServlet</display-name>
         <servlet-name>ExcursionServlet</servlet-name>
@@ -36,21 +36,19 @@
         <servlet-name>ReservaServlet</servlet-name>
         <url-pattern>/reserva/*</url-pattern>
     </servlet-mapping>
-
+    -->
 
    <!-- Thrift service -->
-   <!-- Fill XXX and uncomment the following lines --> 
-   <!--
+
     <servlet>
-        <servlet-name>ThriftXXXServiceServlet</servlet-name>
-        <servlet-class>es.udc.ws.app.thriftservice.ThriftXXXServiceServlet</servlet-class>
+        <servlet-name>ThriftAppServiceServlet</servlet-name>
+        <servlet-class>es.udc.ws.app.thriftservice.ThriftAppServiceServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>ThriftXXXServiceServlet</servlet-name>
-        <url-pattern>/thrift/XXXservice</url-pattern>
+        <servlet-name>ThriftAppServiceServlet</servlet-name>
+        <url-pattern>/thrift/appservice</url-pattern>
     </servlet-mapping>
-    -->
 
     <!-- General configuration -->
 
