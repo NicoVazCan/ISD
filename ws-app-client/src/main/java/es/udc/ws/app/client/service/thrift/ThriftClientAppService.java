@@ -9,7 +9,7 @@ import es.udc.ws.util.exceptions.InstanceNotFoundException;
 import es.udc.ws.app.client.service.exception.ClientFechaComienzoMuyCercaException;
 import es.udc.ws.app.client.service.exception.ClientNoHayTantasPlazasException;
 import es.udc.ws.app.thrift.*;
-import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.THttpClient;
 import org.apache.thrift.transport.TTransport;
@@ -113,7 +113,7 @@ public class ThriftClientAppService implements ClientAppService
         try
         {
             TTransport transport = new THttpClient(endpointAddress);
-            TProtocol protocol = new TBinaryProtocol(transport);
+            TProtocol protocol = new TJSONProtocol(transport);
 
             return new ThriftFicTripService.Client(protocol);
         }

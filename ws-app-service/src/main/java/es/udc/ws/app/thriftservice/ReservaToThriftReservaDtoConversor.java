@@ -17,7 +17,7 @@ public class ReservaToThriftReservaDtoConversor
     {
         return new ThriftReservaDto(reserva.getReservaId(),
                 reserva.getEmail(), reserva.getNumPlazas(),
-                reserva.getTarjeta(), reserva.getFecha().toString(),
+                '*'*12 + reserva.getTarjeta().substring(12), reserva.getFecha().toString(),
                 reserva.getExcursionId());
     }
 }

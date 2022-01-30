@@ -2,7 +2,7 @@ package es.udc.ws.app.thriftservice;
 
 import es.udc.ws.app.thrift.ThriftFicTripService;
 import org.apache.thrift.TProcessor;
-import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.server.TServlet;
 
@@ -20,7 +20,7 @@ public class ThriftAppServiceServlet extends TServlet
     }
 
     private static TProtocolFactory createProtocolFactory() {
-        return new TBinaryProtocol.Factory();
+        return new TJSONProtocol.Factory();
     }
 
 }
